@@ -4,6 +4,7 @@ using ProEventos.Application.Contratos;
 using ProEventos.Persistence;
 using ProEventos.Persistence.Contextos;
 using ProEventos.Persistence.Contratos;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,19 +15,23 @@ builder.Services.AddDbContext<ProEventosContext>(
     context => context.UseSqlite(connection)
     );
 
-builder.Services.AddControllers().AddNewtonsoftJson(
-    options =>
-    {
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-    });
+builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+        )
+        .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
 
 builder.Services.AddScoped<IEventosService, EventoService>();
-//builder.Services.AddScoped<ILoteService, LoteService>();
+builder.Services.AddScoped<ILoteService, LoteService>();
 //builder.Services.AddScoped<ITokenService, TokenService>();
 //builder.Services.AddScoped<IAccountService, AccountService>();
 //builder.Services.AddScoped<IPalestranteService, PalestranteService>();
@@ -35,7 +40,7 @@ builder.Services.AddScoped<IEventosService, EventoService>();
 
 builder.Services.AddScoped<IGeralPersist, GeralPersist>();
 builder.Services.AddScoped<IEventoPersist, EventoPersist>();
-//builder.Services.AddScoped<ILotePersist, LotePersist>();
+builder.Services.AddScoped<ILotePersist, LotePersist>();
 //builder.Services.AddScoped<IUserPersist, UserPersist>();
 //builder.Services.AddScoped<IPalestrantePersist, PalestrantePersist>();
 //builder.Services.AddScoped<IRedeSocialPersist, RedeSocialPersist>();
