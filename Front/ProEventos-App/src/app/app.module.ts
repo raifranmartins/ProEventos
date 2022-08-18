@@ -13,7 +13,7 @@ import { NavComponent } from './shared/nav/nav.component';
 
 
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventoService } from './services/evento.service';
 
 
@@ -23,6 +23,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+
 
 
 
@@ -37,6 +41,9 @@ import { EventoListaComponent } from './components/eventos/evento-lista/evento-l
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { NgxCurrencyModule } from 'ngx-currency';
+
+defineLocale('pt-br', ptBrLocale);
 
 
 
@@ -50,8 +57,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
       ContatosComponent,
       DashboardComponent,
       PerfilComponent,
-      TituloComponent,
-      DateTimeFormatPipe,
+      TituloComponent,      
       EventoDetalheComponent,
       EventoListaComponent,
       UserComponent,
@@ -66,7 +72,8 @@ import { RegistrationComponent } from './components/user/registration/registrati
     HttpClientModule,
     BrowserAnimationsModule,
     CollapseModule.forRoot(),
-    FormsModule,
+    FormsModule,    
+    ReactiveFormsModule,
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
@@ -76,9 +83,10 @@ import { RegistrationComponent } from './components/user/registration/registrati
       preventDuplicates: true,
       progressBar : true,
     }),
-    NgxSpinnerModule
-    //CollapseModule.forRoot()
-
+    NgxSpinnerModule,
+    BsDatepickerModule.forRoot(),
+    NgxCurrencyModule 
+    
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
